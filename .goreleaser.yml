@@ -1,3 +1,5 @@
+version: 2
+
 builds:
   - skip: true # 彻底禁用二进制构建
 
@@ -17,19 +19,19 @@ release:
     - glob: README.md
     - glob: go.mod
     - glob: go.sum
-    - glob: docs/**  # 文档目录
-    - glob: examples/**  # 使用示例
+    - glob: docs/** # 文档目录
+    - glob: examples/** # 使用示例
 
 archive:
   format: tar.gz
-  name_template: "source-v{{ .Version }}"
+  name_template: 'source-v{{ .Version }}'
   replacements:
     darwin: macos
     linux: linux
     windows: windows
     amd64: x86_64
   files:
-    - "*.go"  # 包含根目录Go文件
-    - "**/*.go"  # 包含所有子目录Go文件
-    - "**/*.mod"  # 包含可能的子模块
-    - "**/*.sum"  # 包含子模块校验文件
+    - '*.go' # 包含根目录Go文件
+    - '**/*.go' # 包含所有子目录Go文件
+    - '**/*.mod' # 包含可能的子模块
+    - '**/*.sum' # 包含子模块校验文件
