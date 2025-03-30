@@ -1,40 +1,20 @@
 version: 2
 
-builds:
-  - skip: true # 彻底禁用二进制构建
-
-gomod:
-  proxy: true
-
 release:
   github:
     owner: package-register
     name: go-utils
   draft: false
   prerelease: false
-  extra_files:
-    - glob: LICENSE
-    - glob: README.md
-    - glob: go.mod
-    - glob: go.sum
-    - glob: docs/** # 文档目录
-    - glob: examples/** # 使用示例
-
-archives:
-  - format: tar.gz
-    name_template: 'source-v{{ .Version }}'
-    files:
-      - '*.go' # 包含根目录Go文件
-      - '**/*.go' # 包含所有子目录Go文件
-      - '**/*.mod' # 包含可能的子模块
-      - '**/*.sum' # 包含子模块校验文件
 
 snapshot:
   name_template: '{{ .Tag }}-next'
 
-ids:
-  replacements:
-    darwin: macos
-    linux: linux
-    windows: windows
-    amd64: x86_64
+changelog:
+  skip: true
+
+checksum:
+  disable: true
+
+signs:
+  - artifacts: none
