@@ -97,14 +97,18 @@ commit:
 
 # Bump version number
 bump-version:
-	@if [ -f VERSION ]; then \
-		CURRENT_VERSION=$$(cat VERSION); \
-		NEW_VERSION=$$(echo $$CURRENT_VERSION | awk -F. 'BEGIN {OFS="."} {$$3=$$3+1; print}'); \
+	@LATEST_TAG=$$(git describe --tags --abbrev=0 2>/dev/null); \
+	if [ -z "$$LATEST_TAG" ]; then \
+		NEW_VERSION="v0.1.0"; \
 	else \
-		NEW_VERSION="0.1.0"; \
+		NEW_VERSION=$$(echo $$LATEST_TAG | awk -F. '{major=substr($$1,2); print "v"major"."$$2"."($$3+1)}'); \
 	fi; \
-	echo "$$NEW_VERSION" > VERSION; \
-	echo "Version bumped to $$NEW_VERSION"
+	git tag -a $$NEW_VERSION -m "Release $$NEW_VERSION"; \
+	echo "New version tag $$NEW_VERSION created"
+
+build:
+	@echo "Building binaries..."
+	@goreleaser build --snapshot --clean
 
 # Run all tests
 test:
