@@ -1,40 +1,31 @@
-name: Go Release
+name: Build and Release
 
 on:
   push:
     tags:
-      - 'v*'
-
-permissions:
-  contents: write
-  packages: write
-  issues: write
+      - '*'
 
 jobs:
-  goreleaser:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
-      - name: Set up Go
-        uses: actions/setup-go@v4
-        with:
-          go-version: 1.21
-          cache: true
+      - name: Generate Changelog
+        run: |
+          git log --pretty=format:"- %s (%h)" > CHANGELOG.md
+          echo "# Changelog" > temp_changelog.md
+          cat CHANGELOG.md >> temp_changelog.md
+          mv temp_changelog.md CHANGELOG.md
+          echo "Generated CHANGELOG.md"
 
-      - name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v6
+      - name: Release
+        uses: softprops/action-gh-release@v2
         with:
-          version: '~> v2'
-          args: release --clean
-          workdir: ./
-        env:
-          GO111MODULE: on
-          GOPROXY: https://proxy.golang.org
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Upload assets
-        uses: actions/upload-artifact@v4
+          token: ${{ secrets.GITHUB_TOKEN }}
+          body_path: ./CHANGELOG.md
+          files: |
+            ./CHANGELOG.md
