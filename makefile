@@ -6,13 +6,54 @@ COMMIT_MSG ?= "Update project"
 all: help
 
 # Help target
+push: check-remote
+	@set -e; \
+	CURRENT_BRANCH=$$(git symbolic-ref --short HEAD); \
+	echo "🚀 启动自动化发布流程..."; \
+	echo "▸ 当前工作分支: \033[1;34m$$CURRENT_BRANCH\033[0m"; \
+	\
+	echo "🔄 正在提交未保存的变更..."; \
+	git add . || { echo "❌ 添加文件失败"; exit 1; }; \
+	if git diff-index --quiet HEAD --; then \
+		echo "🟢 工作区干净，无待提交变更"; \
+	else \
+		git commit -m "🔖 [自动提交] 版本发布前预处理" || { echo "❌ 提交失败"; exit 1; }; \
+		echo "✅ 变更已提交（提交消息：🔖 [自动提交] 版本发布前预处理）"; \
+	fi; \
+	\
+	echo "🆙 生成新版本标签..."; \
+	$(MAKE) bump-version || { echo "❌ 版本标签生成失败"; exit 1; }; \
+	\
+	echo "📡 同步代码至GitHub..."; \
+	git push origin $$CURRENT_BRANCH --follow-tags || { echo "❌ 代码/标签推送失败"; exit 1; }; \
+	\
+	echo "\n✅ 发布流程完成！以下步骤将自动进行："; \
+	echo "  1. GitHub Actions 将触发构建流程（约1-2分钟）"; \
+	echo "  2. GoReleaser 将生成多平台二进制文件"; \
+	echo "  3. 新版本文档将自动发布到 GitHub Releases\n"; \
+	echo "🔗 实时进度查看: https://github.com/fromsko/agcore/actions"; \
+	echo "🔗 发布结果查看: https://github.com/fromsko/agcore/releases"
+
+check-remote:
+	@echo "🔍 检查远程仓库配置..."; \
+	if git remote | grep -q origin; then \
+		echo "✓ 已配置远程仓库: \033[1;34m$$(git remote get-url origin)\033[0m"; \
+	else \
+		echo "❌ 错误：未配置远程仓库"; \
+		echo "请先执行以下命令配置仓库地址："; \
+		echo "   \033[1;32mmake add-remote \033[0m<仓库URL>"; \
+		echo "或通过交互模式配置：\033[1;32mmake add-remote\033[0m"; \
+		exit 1; \
+	fi
+
 help:
 	@echo "\033[1;32mMakefile Usage:\033[0m"
-	@echo "  \033[1;32mmake add-remote\033[0m         - Add remote git repository"
-	@echo "  \033[1;32mmake commit\033[0m             - Commit changes with a message (include emoji)"
-	@echo "  \033[1;32mmake bump-version\033[0m       - Create a new version number"
-	@echo "  \033[1;32mmake test\033[0m               - Run all tests"
-	@echo "  \033[1;32mmake clean\033[0m              - Clean generated files"
+	@echo "  \033[1;32mmake add-remote\033[0m         - 配置/更新Git远程仓库"
+	@echo "  \033[1;32mmake commit\033[0m             - 提交变更并选择提交信息"
+	@echo "  \033[1;32mmake push\033[0m               - 自动提交、创建新版本并推送到远程仓库"
+	@echo "  \033[1;32mmake bump-version\033[0m       - 创建新的语义化版本标签"
+	@echo "  \033[1;32mmake test\033[0m               - 运行所有测试"
+	@echo "  \033[1;32mmake clean\033[0m              - 清理生成文件"
 
 # Add/update remote repository
 add-remote:
