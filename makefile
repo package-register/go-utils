@@ -28,33 +28,44 @@ add-remote:
 
 # Commit changes with a message (include emoji)
 commit:
-	@echo "Select a commit message:"
-	@echo "1. 🚀 Initial commit"
-	@echo "2. ✨ Add new feature"
-	@echo "3. 🐛 Fix bug"
-	@echo "4. 📝 Update documentation"
-	@echo "5. 🔧 Refactor code"
-	@echo "6. 👍 Other"
-	@read -rp "Enter your choice (1-6): " choice && choice=$$(echo "$$choice" | tr -d '[:space:]'); \
-	if [ "$$choice" = "1" ]; then \
+	@if git diff --cached --quiet && git ls-files --other --directory --exclude-standard | grep -q .; then \
+		echo "No changes to commit. Exiting."; \
+		exit 0; \
+	fi; \
+	echo "Select a commit message:"; \
+	echo "1. 🚀 Initial commit"; \
+	echo "2. ✨ Add new feature"; \
+	echo "3. 🐛 Fix bug"; \
+	echo "4. 📝 Update documentation"; \
+	echo "5. 🔧 Refactor code"; \
+	echo "6. 👍 Other"; \
+	read -rp "Enter your choice (1-6): " choice; \
+	choice=$$(echo "$$choice" | tr -cd '0-9'); \
+	if [ -z "$$choice" ]; then \
+		echo "Invalid input. Exiting."; \
+		exit 1; \
+	elif [ "$$choice" -eq 1 ]; then \
 		COMMIT_MSG="🚀 Initial commit"; \
-	elif [ "$$choice" = "2" ]; then \
+	elif [ "$$choice" -eq 2 ]; then \
 		COMMIT_MSG="✨ Add new feature"; \
-	elif [ "$$choice" = "3" ]; then \
+	elif [ "$$choice" -eq 3 ]; then \
 		COMMIT_MSG="🐛 Fix bug"; \
-	elif [ "$$choice" = "4" ]; then \
+	elif [ "$$choice" -eq 4 ]; then \
 		COMMIT_MSG="📝 Update documentation"; \
-	elif [ "$$choice" = "5" ]; then \
+	elif [ "$$choice" -eq 5 ]; then \
 		COMMIT_MSG="🔧 Refactor code"; \
-	elif [ "$$choice" = "6" ]; then \
+	elif [ "$$choice" -eq 6 ]; then \
 		read -rp "Enter custom commit message: " COMMIT_MSG; \
 	else \
 		echo "Invalid choice. Exiting."; \
 		exit 1; \
 	fi; \
 	git add .; \
-	git commit -m "$$COMMIT_MSG"; \
-	echo "Committed changes with message: $$COMMIT_MSG"
+	if git commit -m "$$COMMIT_MSG"; then \
+		echo "Committed changes with message: $$COMMIT_MSG"; \
+	else \
+		echo "Commit failed (no changes to commit)."; \
+	fi
 
 # Bump version number
 bump-version:
