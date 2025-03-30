@@ -1,4 +1,4 @@
-module agcore
+module github.com/package-register/go-utils
 
 go 1.24.1
 

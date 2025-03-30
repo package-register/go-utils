@@ -1,25 +1,12 @@
+# 专为Go模块发布的配置
 builds:
-  - env:
-      - CGO_ENABLED=0
-    goos:
-      - linux
-      - darwin
-      - windows
-    goarch:
-      - amd64
-      - arm64
-    flags:
-      - -trimpath
-    ldflags:
-      - -s -w -extldflags "-static"
-    binary: "{{ .ProjectName }}{{ if eq .Os \"windows\" }}.exe{{ end }}"
+  - disable: true  # 彻底禁用二进制构建
+    dir: /dev/null  # 确保无构建目录
+    binary: /dev/null
 
-archives:
-  - format: binary
-    name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}_v{{ .Version }}"
-
-checksum:
-  name_template: "{{ .ProjectName }}_checksums.txt"
+gomod:
+  proxy: true      # 启用Go模块代理支持
+  module_path: github.com/fromsko/agcore  # 完整的模块路径
 
 release:
   github:
@@ -27,3 +14,25 @@ release:
     name: agcore
   draft: false
   prerelease: false
+  # 包含模块发布必需文件
+  extra_files:
+    - glob: LICENSE
+    - glob: README.md
+    - glob: go.mod
+    - glob: go.sum
+    - glob: docs/**  # 文档目录
+    - glob: examples/**  # 使用示例
+
+archive:
+  format: tar.gz
+  name_template: "source-v{{ .Version }}"
+  replacements:
+    darwin: macos
+    linux: linux
+    windows: windows
+    amd64: x86_64
+  files:
+    - "*.go"  # 包含根目录Go文件
+    - "**/*.go"  # 包含所有子目录Go文件
+    - "**/*.mod"  # 包含可能的子模块
+    - "**/*.sum"  # 包含子模块校验文件
