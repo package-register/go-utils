@@ -1,17 +1,14 @@
-# 专为Go模块发布的配置
 builds:
-  - disable: true  # 彻底禁用二进制构建
-    dir: /dev/null  # 确保无构建目录
-    binary: /dev/null
+  - skip: true # 彻底禁用二进制构建
 
 gomod:
-  proxy: true      # 启用Go模块代理支持
-  module_path: github.com/fromsko/agcore  # 完整的模块路径
+  proxy: true
+  module_path: github.com/package-register/go-utils
 
 release:
   github:
-    owner: fromsko
-    name: agcore
+    owner: package-register
+    name: go-utils
   draft: false
   prerelease: false
   # 包含模块发布必需文件
