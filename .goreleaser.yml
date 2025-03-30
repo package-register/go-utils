@@ -8,7 +8,8 @@ release:
   prerelease: false
 
 snapshot:
-  name_template: '{{ .Tag }}-next'
+  # 移除已弃用的 name_template
+  enabled: true
 
 changelog:
   filters:
@@ -16,5 +17,11 @@ changelog:
 
 checksum:
   disable: true
+
+builds: [] # 禁用构建步骤，仅发布源码
+
+archives:
+  - files:
+      - '**/*'
 
 signs: []
