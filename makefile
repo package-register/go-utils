@@ -14,17 +14,45 @@ help:
 	@echo "  \033[1;32mmake test\033[0m               - Run all tests"
 	@echo "  \033[1;32mmake clean\033[0m              - Clean generated files"
 
-# Add remote repository
+# Add/update remote repository
 add-remote:
-	@if git remote | grep -q origin; then \
-		echo "Remote origin already exists."; \
-	else \
-		if [ -z "$(REMOTE_REPO)" ]; then \
-			read -p "Enter remote repository URL: " REMOTE_REPO; \
+	@# 捕获并验证URL参数
+	@$(eval RAW_ARGS := $(filter-out $@,$(MAKECMDGOALS)))
+	@$(eval REMOTE_REPO := $(shell echo '$(RAW_ARGS)' | grep -Eo '(git@|https?://)[a-zA-Z0-9./:@_-]+'))
+	
+	@if [ -n "$(REMOTE_REPO)" ]; then \
+		if git remote | grep -q origin; then \
+			git remote set-url origin $(REMOTE_REPO) >/dev/null; \
+			echo "✓ Remote origin updated to: $(REMOTE_REPO)"; \
+		else \
+			git remote add origin $(REMOTE_REPO) >/dev/null; \
+			echo "✓ Remote origin added: $(REMOTE_REPO)"; \
 		fi; \
-		git remote add origin $(REMOTE_REPO); \
-		echo "Added remote origin."; \
-	fi
+		exit 0; \
+	fi; \
+	
+	@if [ -n "$(RAW_ARGS)" ]; then \
+		echo "⚠️ Invalid repository URL: '$(RAW_ARGS)'"; \
+		echo "Valid formats: git@... or https://..."; \
+		exit 1; \
+	fi; \
+	
+	@# 交互模式
+	@if git remote | grep -q origin; then \
+		current_url=$$(git remote get-url origin); \
+		read -p "Current remote: $$current_url\nUpdate? [y/N]: " confirm; \
+		if [ "$$confirm" = "y" ] || [ "$$confirm" = "Y" ]; then \
+			read -p "Enter new URL: " REMOTE_REPO; \
+			git remote set-url origin "$$REMOTE_REPO" >/dev/null; \
+			echo "✓ Remote URL updated"; \
+		else \
+			echo "ℹ️ Keeping existing URL"; \
+		fi; \
+	else \
+		read -p "Enter repository URL: " REMOTE_REPO; \
+		git remote add origin "$$REMOTE_REPO" >/dev/null; \
+		echo "✓ Remote origin added"; \
+	fi;
 
 # Commit changes with a message (include emoji)
 commit:

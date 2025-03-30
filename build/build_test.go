@@ -18,7 +18,7 @@ func TestBuild(t *testing.T) {
 		}
 	}
 
-	option := &Option{Path: "dem", ZipMode: true}
+	option := &Option{Path: "bin"}
 	if err := Build(option); err != nil {
 		t.Fatalf("Build function failed: %v", err)
 	}
