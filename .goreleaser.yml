@@ -11,10 +11,10 @@ snapshot:
   name_template: '{{ .Tag }}-next'
 
 changelog:
-  skip: true
+  filters:
+    exclude: ['.*']
 
 checksum:
   disable: true
 
-signs:
-  - artifacts: none
+signs: []
