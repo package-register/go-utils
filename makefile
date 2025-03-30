@@ -28,7 +28,7 @@ add-remote:
 
 # Commit changes with a message (include emoji)
 commit:
-	@if git diff --cached --quiet && git ls-files --other --directory --exclude-standard | grep -q .; then \
+	@if [ -z "$$(git status --porcelain)" ]; then \
 		echo "No changes to commit. Exiting."; \
 		exit 0; \
 	fi; \
@@ -71,12 +71,12 @@ commit:
 bump-version:
 	@if [ -f VERSION ]; then \
 		CURRENT_VERSION=$$(cat VERSION); \
-		NEW_VERSION=$$(echo $$CURRENT_VERSION | awk -F. '{print $$1"."$$2"."($$3+1)}'); \
+		NEW_VERSION=$$(echo $$CURRENT_VERSION | awk -F. 'BEGIN {OFS="."} {$$3=$$3+1; print}'); \
 	else \
 		NEW_VERSION="0.1.0"; \
 	fi; \
-	echo $$NEW_VERSION > VERSION; \
-	@echo "Version bumped to $$NEW_VERSION"
+	echo "$$NEW_VERSION" > VERSION; \
+	echo "Version bumped to $$NEW_VERSION"
 
 # Run all tests
 test:
