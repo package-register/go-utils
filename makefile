@@ -31,8 +31,8 @@ push: check-remote
 	echo "  1. GitHub Actions 将触发构建流程（约1-2分钟）"; \
 	echo "  2. GoReleaser 将生成多平台二进制文件"; \
 	echo "  3. 新版本文档将自动发布到 GitHub Releases\n"; \
-	echo "🔗 实时进度查看: https://github.com/fromsko/agcore/actions"; \
-	echo "🔗 发布结果查看: https://github.com/fromsko/agcore/releases"
+	echo "🔗 实时进度查看: https://github.com/package-register/go-utils/actions"; \
+	echo "🔗 发布结果查看: https://github.com/package-register/go-utils/releases"
 
 check-remote:
 	@echo "🔍 检查远程仓库配置..."; \
