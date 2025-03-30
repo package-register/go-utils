@@ -41,14 +41,7 @@
 ### 安装使用
 
 ```bash
-go get https://github.com/package-register/go-utils
-```
-
-### 复刻项目
-
-```bash
-git clone https://github.com/package-register/go-utils.git
-cd go-utils
+go get github.com/package-register/go-utils
 ```
 
 ### 常用命令
@@ -82,34 +75,14 @@ make bump-version
 
 ## 🤝 贡献指南
 
-1. 创建特性分支 `git checkout -b feature/your-feature`
-2. 提交代码变更 `make commit`
-3. 推送分支并创建 PR
-
-## 📜 许可证
-
-[MIT](LICENSE) License
+### 复刻项目
 
 ```bash
-# 应用 GitOps 配置
-make gitops-apply ENV=staging
-
-# 查看部署状态
-make gitops-status
+git clone https://github.com/package-register/go-utils.git
+cd go-utils
 ```
 
-### 缓存性能测试
-
-```bash
-# 运行基准测试
-make bench-cache
-
-# 示例输出：
-# BenchmarkMemoryCache-8     1500000    812 ns/op
-# BenchmarkRedisCache-8      1000000    1203 ns/op
-```
-
-## 🤝 贡献指南
+### 步骤
 
 1. Fork 项目仓库
 2. 创建特性分支 (`git checkout -b feature/amazing-feature`)
@@ -123,4 +96,4 @@ make bench-cache
 
 ---
 
-🦄 Made with ❤️ by AgileCore Team | 📧 contact@agilecore.dev
+🦄 Made with ❤️ by oAo Team | 📧 hnkong666@gmail.com
