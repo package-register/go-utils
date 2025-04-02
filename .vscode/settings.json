@@ -1,0 +1,125 @@
+{
+  // 基础配置
+  "editor.tokenColorCustomizations": {
+    "textMateRules": [
+      {
+        "name": "Comments",
+        "scope": "comment, punctuation.definition.comment",
+        "settings": {
+          "fontStyle": "",
+          "foreground": "#4dc043"
+        }
+      }
+    ]
+  },
+  "editor.emptySelectionClipboard": true,
+  "editor.mouseWheelZoom": true,
+  "editor.tabSize": 4,
+  "editor.fontLigatures": true,
+  "editor.fontSize": 14,
+  "editor.lineNumbers": "on",
+  "editor.cursorStyle": "line-thin",
+  "editor.formatOnSaveMode": "file",
+  "editor.cursorSmoothCaretAnimation": "on",
+  "editor.bracketPairColorization.enabled": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "files.eol": "\n",
+  "files.encoding": "utf8",
+  "files.autoSave": "afterDelay",
+  "explorer.confirmDelete": false,
+  "explorer.compactFolders": true,
+  // 插件
+  "prettier.singleQuote": true,
+  "prettier.semi": false,
+  "prettier.printWidth": 120,
+  "emmet.triggerExpansionOnTab": true,
+  "emmet.includeLanguages": {
+    "jsp": "html",
+    "javascript": "html",
+    "vue-html": "html",
+    "vue": "html",
+    "wxml": "html"
+  },
+  "code-runner.clearPreviousOutput": true,
+  "code-runner.saveFileBeforeRun": true,
+  "code-runner.runInTerminal": true,
+  "git.ignoreMissingGitWarning": true,
+  "path-intellisense.mappings": {
+    ".": "${workspaceFolder}"
+  },
+  // 语言
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "always"
+  },
+  "[python]": {
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "editor.rulers": [120],
+    "editor.suggest.snippetsPreventQuickSuggestions": false,
+    "editor.defaultFormatter": "ms-python.black-formatter"
+  },
+  "[vue]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "always"
+    }
+  },
+  // 自定义
+  "terminal.integrated.cursorStyle": "line",
+  "terminal.integrated.cursorBlinking": true,
+  "terminal.integrated.fontFamily": "'Fira Code', Consolas",
+  "git.confirmSync": false,
+  "git.enableSmartCommit": true,
+  "workbench.startupEditor": "none",
+  "terminal.integrated.defaultProfile.windows": "Command Prompt",
+  "terminal.integrated.enableMultiLinePasteWarning": "never",
+  "explorer.confirmDragAndDrop": false,
+  "editor.minimap.size": "fit",
+  "editor.minimap.renderCharacters": false,
+  "security.workspace.trust.untrustedFiles": "open",
+  "[dart]": {
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true,
+    "editor.rulers": [80],
+    "editor.selectionHighlight": false,
+    "editor.tabCompletion": "onlySnippets",
+    "editor.wordBasedSuggestions": "off"
+  },
+  "git.openRepositoryInParentFolders": "never",
+  "[go]": {
+    "editor.defaultFormatter": "golang.go"
+  },
+  "go.toolsManagement.autoUpdate": true,
+  "path-intellisense.extensionOnImport": true,
+  "editor.suggest.preview": true,
+  "editor.suggest.filterGraceful": true,
+  "editor.suggest.showClasses": true,
+  "editor.suggest.showFunctions": true,
+  "editor.suggest.showEvents": true,
+  "editor.suggest.showColors": true,
+  "editor.quickSuggestions": {
+    "other": "on",
+    "comments": "on",
+    "strings": "on"
+  },
+  "explorer.confirmPasteNative": false,
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "workbench.colorTheme": "1984 - Fancy",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "aide.codeViewerHelperPrompt": "You are a programming language commentator.\nYour task is to help me add detailed comments to #{sourceLanguage} code to make it understandable for beginners.\nDo not modify the original code; just add as many explanatory comments as possible.\nMy goal is solely to understand and read the code. Please use my native language #{locale} as the commenting language.\nAvoid including any additional text except for the commented code. Do not use markdown syntax.\nBelow is the code you need to comment on:\n\n#{content}",
+  "aide.openaiKey": "sk-ed2aeec4d1fd492c8ef905bcc3d1bc91",
+  "aide.openaiBaseUrl": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+  "aide.openaiModel": "qwen-max-2025-01-25",
+  "[snippets]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "workbench.iconTheme": "vscode-icons-mac",
+  "vsicons.dontShowNewVersionMessage": true
+}
