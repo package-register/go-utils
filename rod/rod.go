@@ -19,11 +19,13 @@ type RodClient interface {
 	SavePageScreen(pg *rod.Page, path ...string) []byte
 	SaveElementScreen(el *rod.Element, path ...string) []byte
 	HookResource(page *rod.Page)
+	StartWebPage(url string) *rod.Page
 }
 
 type option struct {
-	mux    *sync.Mutex
-	errPut bool
+	Browser *rod.Browser
+	mux     *sync.Mutex
+	errPut  bool
 }
 
 func UseRodTool(options ...func(*option)) RodClient {
@@ -48,6 +50,7 @@ func (h *option) InitWebClient(wsurl string) (browser *rod.Browser) {
 
 	if browser = rod.New().ControlURL(wsurl).MustConnect(); browser != nil {
 		fmt.Printf("webclient: %s", wsurl)
+		h.Browser = browser
 	}
 
 	return browser
@@ -63,6 +66,10 @@ func (h *option) errPrint(msg string, err error) {
 	if h.errPut {
 		fmt.Printf("%s err=%s\n", msg, err.Error())
 	}
+}
+
+func (h *option) StartWebPage(url string) *rod.Page {
+	return h.Browser.MustPage(url).MustWaitLoad().MustWaitStable()
 }
 
 func (h *option) SearchParams(page *rod.Page, text string) (*rod.SearchResult, bool) {
