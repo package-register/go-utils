@@ -107,10 +107,6 @@
   "javascript.updateImportsOnFileMove.enabled": "always",
   "workbench.colorTheme": "1984 - Fancy",
   "typescript.updateImportsOnFileMove.enabled": "always",
-  "aide.codeViewerHelperPrompt": "You are a programming language commentator.\nYour task is to help me add detailed comments to #{sourceLanguage} code to make it understandable for beginners.\nDo not modify the original code; just add as many explanatory comments as possible.\nMy goal is solely to understand and read the code. Please use my native language #{locale} as the commenting language.\nAvoid including any additional text except for the commented code. Do not use markdown syntax.\nBelow is the code you need to comment on:\n\n#{content}",
-  "aide.openaiKey": "sk-ed2aeec4d1fd492c8ef905bcc3d1bc91",
-  "aide.openaiBaseUrl": "https://dashscope.aliyuncs.com/compatible-mode/v1",
-  "aide.openaiModel": "qwen-max-2025-01-25",
   "[snippets]": {
     "editor.defaultFormatter": "vscode.json-language-features"
   },
